@@ -25,6 +25,11 @@ get '/chatbox' do
   erb :chatbox
 end
 
+get '/db_len' do
+  @db_len = db_len
+  erb :db_len
+end
+
 post '/message' do
   user = session[:user]
   Message.create(user, params[:message])
@@ -42,6 +47,11 @@ post '/user' do
 end
 
 helpers do
+
+  def db_len
+    Message.len
+  end
+
   def pluralize(singular, plural, count)
     if count == 1
       count.to_s + " " + singular

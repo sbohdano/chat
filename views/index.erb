@@ -33,9 +33,12 @@
           </div>
         </div>
       </div>
+      <div id='db_len' style='visibility:hidden;'></div>
     <% end %>
   </body>
   <script>
+    var len = 0;
+    
     $("textarea").focus();
     
     $('#message').bind('keypress', function(e) {
@@ -54,13 +57,23 @@
     }
 
     function refresh() {
-      $(".chatbox_content").load("/chatbox", '', callback);
+      $(".chatbox_content").load("/chatbox");
     }
  
-    function callback() {
-          setTimeout("refresh();", 1000);
+    function check_len() {
+      $("#db_len").load('/db_len', function(e) {
+        if (len != e) {  
+          refresh();
+          len = e;
+        }
+        callback();
+      });
     }
 
-    $(document).ready(refresh);
+    function callback() {
+      setTimeout("check_len();", 1000);
+    }
+
+    $(document).ready(check_len());
   </script>
 </html>

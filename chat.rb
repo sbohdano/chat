@@ -43,6 +43,10 @@ class Message < Model
     end
   end
 
+  def self.len
+    ile = redis.llen("messages")
+  end
+
   property :content
   property :user
   #property :created_at
